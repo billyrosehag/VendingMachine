@@ -7,7 +7,9 @@ namespace VendingMachine
 {
     class Program
     {
+        public static string dashes = "-----------------------------";
         static VMachine myMachine = new VMachine();
+        static int inputNumber;
         static void Main(string[] args)
         {
 
@@ -27,10 +29,9 @@ namespace VendingMachine
                 myMachine.VendingProducts.Add(product);
             }
 
+            Console.ForegroundColor = ConsoleColor.White;
+
             MainMenu();
-
-
-
         }
 
         public static void MainMenu()
@@ -38,10 +39,10 @@ namespace VendingMachine
             Console.Clear();
             Console.WriteLine("----------- WELCOME TO THE VENDING MACHINE -----------");
 
-            Console.WriteLine("THE FOLLOWING OPTIONS ARE AVAILABLE:");
+            Console.WriteLine($"THE FOLLOWING OPTIONS ARE AVAILABLE:");
             myMachine.ShowAll(myMachine.VendingProducts);
 
-            Console.WriteLine("\nCurrent money left to spend: " + myMachine.MoneyPool);
+            Console.WriteLine($"{dashes}\nCurrent money left to spend: {myMachine.MoneyPool} kr");
 
             Console.WriteLine("\nDo you want to:"
                             + "\n1. Add money"
@@ -51,7 +52,7 @@ namespace VendingMachine
 
 
             MainMenuChoice(StringToInt(
-                "\nChoose by inputting the corresponding number: "));//Player inputs their choice
+                $"{dashes}\nChoose by inputting the corresponding number: "));//Player inputs their choice
         }
 
         public static void MainMenuChoice(int choice)
@@ -59,19 +60,23 @@ namespace VendingMachine
             switch (choice)
             {
                 case 1:
+                    Console.WriteLine(dashes);
                     AddMoney();
-
                     break;
                 case 2:
+                    Console.WriteLine(dashes);
                     InspectItem();
                     break;
                 case 3:
+                    Console.WriteLine(dashes);
                     PurchaseSection();
                     break;
                 case 4:
-                    myMachine.EndTransaction();
+                    Console.WriteLine(dashes);
+                    EndTransactionSection();
                     break;
                 default:
+                    Console.WriteLine(dashes);
                     Console.WriteLine("Choice not available.");
                     AnyKeyToContinue();
                     break;
@@ -81,26 +86,29 @@ namespace VendingMachine
         public static void AddMoney()
         {
             myMachine.InsertMoney(StringToInt("How much do you want to add: "));
+            Console.WriteLine($"You now have {myMachine.MoneyPool} kr to spend");
             AnyKeyToContinue();
         }
 
         public static void InspectItem()
         {
-           
-
             //Starts the examine method for the product the user inputs 
-            Console.WriteLine(myMachine.VendingProducts[StringToInt("What item would you like to inspect: ") - 1].Examine());
+
+            inputNumber = StringToInt("What item would you like to inspect: ", 1, myMachine.VendingProducts.Count) - 1;
+
+            Console.WriteLine(myMachine.VendingProducts[inputNumber].Examine());
 
             AnyKeyToContinue();
         }
 
         public static void PurchaseSection()
         {
-            int choice = StringToInt("What item do you want to purchase: ") - 1;
+            int choice = StringToInt("What item do you want to purchase: ", 1, myMachine.VendingProducts.Count) - 1;
             if(myMachine.MoneyPool >= myMachine.VendingProducts[choice].Price)
             {
                 myMachine.Purchase(myMachine.VendingProducts[choice]);
                 myMachine.ConsumePurchase(PurchaseItem(choice, myMachine.VendingProducts));
+                
             }
             else
             {
@@ -126,7 +134,15 @@ namespace VendingMachine
 
         public static bool EndTransactionSection()
         {
+            if(myMachine.MoneyPool > 0)
+            {
+                Console.WriteLine($"\nHere is your change\n");
+                myMachine.EndTransaction();
+            }
+            Console.WriteLine($"{dashes}\nThank you and welcome again.");
+            System.Threading.Thread.Sleep(1000);
 
+            return false;
         }
 
         //Methods used for user input and alike
@@ -153,6 +169,37 @@ namespace VendingMachine
             return result;
 
         }
+        public static int StringToInt(string inputWhat, int start, int end)
+        {
+            bool isNumber = false;
+            int result = 0;
+            do
+            {
+                Console.WriteLine(inputWhat);
+
+                string playerInput = Console.ReadLine();
+
+                isNumber = int.TryParse(playerInput, out result);
+
+                if (!isNumber)
+                {
+                    inputWhat = "Invalid input. Please input a number: ";
+                }
+                else if (result < start)
+                {
+                    inputWhat = "Too low number. Try again: ";
+                }
+                else if (result > end)
+                {
+                    inputWhat = "Too high number. Try again: ";
+                }
+
+            } while (!isNumber || result < start || result > end);
+
+
+            return result;
+
+        }
 
         public static void AnyKeyToContinue()
         {
@@ -161,35 +208,7 @@ namespace VendingMachine
             MainMenu();
         }
 
-
-
-
-
-
-
-        //Console.WriteLine(strMoneyPool + myMachine.MoneyPool);
-
-        //Console.ReadKey();
-
-        //myMachine.InsertMoney(3527);
-
-        //Console.WriteLine(strMoneyPool + myMachine.MoneyPool);
-        //myMachine.Purchase(myMachine.VendingProducts[2]);
-        //Console.WriteLine(strMoneyPool + myMachine.MoneyPool);
-        //myMachine.Purchase(myMachine.VendingProducts[1]);
-        //Console.WriteLine(strMoneyPool + myMachine.MoneyPool);
-        //myMachine.Purchase(myMachine.VendingProducts[0]);
-        //Console.ReadKey();
-
-        //myMachine.ShowAll(myMachine.PurchasedProducts);
-        //Console.ReadKey();
-
-
-        //myMachine.ConsumePurchase(myMachine.PurchasedProducts[1]);
-
-        //Console.ReadKey();
-
-        //Dictionary<int, int> myDic = myMachine.EndTransaction();
+        
     }
 
 }

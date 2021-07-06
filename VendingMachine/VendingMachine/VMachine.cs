@@ -18,18 +18,18 @@ namespace VendingMachine.Machine
         public int Bill { get { return bill; } }
 
         
-        int[] denominations = new int[] {1000, 500, 100, 50, 20, 10, 5, 1};
+        readonly int[] denominations = new int[] {1000, 500, 100, 50, 20, 10, 5, 1};
 
-        Dictionary<int, int> Change = new Dictionary<int, int>() 
-        {
-            {1000,0 },
-            {500,0 },
-            {100,0 },
-            {50,0 },
-            {10,0 },
-            {5,0 },
-            {1,0 },
-        };
+        Dictionary<int, int> Change = new Dictionary<int, int>();
+        //{
+        //    {1000,0 },
+        //    {500,0 },
+        //    {100,0 },
+        //    {50,0 },
+        //    {10,0 },
+        //    {5,0 },
+        //    {1,0 },
+        //};
 
         public Dictionary<int, int> EndTransaction()
         {
@@ -39,8 +39,7 @@ namespace VendingMachine.Machine
                 int currentIndex = (int)Change.ElementAt(i).Key;
 
                 while (currentIndex <= moneyPool)
-                {
-                    
+                {     
                     currencyCount++;
                     Change[currentIndex] = currencyCount;
                     moneyPool -= currentIndex;
@@ -49,9 +48,17 @@ namespace VendingMachine.Machine
 
             foreach (KeyValuePair<int,int> change in Change)
             {
-                Console.WriteLine($"{change.Key}: {change.Value}");
+                if(change.Value <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
+                Console.WriteLine($"{change.Key}:\t{change.Value}");
             }
-
+            Console.ForegroundColor = ConsoleColor.White;
             return Change;
         }
 
@@ -59,6 +66,10 @@ namespace VendingMachine.Machine
         {
             VendingProducts = new List<Product>();
             PurchasedProducts = new List<Product>();
+            foreach(int currency in denominations)
+            {
+                Change.Add(currency, 0);
+            }
         }
 
         //Insert more money to spend
@@ -87,7 +98,7 @@ namespace VendingMachine.Machine
             {
                 strType = $"\n---- {option}. {product.Type} ----\n";
 
-                Console.WriteLine(strType + product.Name + strPrice + product.Price);
+                Console.WriteLine(strType + product.Name + strPrice + product.Price + " kr");
                 option++;
             }
         }
