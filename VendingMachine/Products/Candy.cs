@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VendingMachine.Products
 {
-    class Candy:Product
+    public class Candy:Product
     {
 
         public Candy(int price, string name, string info):base(price, name, info)
@@ -15,7 +15,7 @@ namespace VendingMachine.Products
 
         public override string Examine()
         {
-            return $"{Type}: {Name}\n{Type} Info: {Info}\nPrice: {Price}";
+            return $"{Type}: {Name}\nInfo: {Info}\nPrice: {Price}";
         }
 
         public override string UseItem()

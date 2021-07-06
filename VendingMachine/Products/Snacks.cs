@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VendingMachine.Products
 {
-    class Snacks:Product
+    public class Snacks:Product
     {
         public Snacks(int price,  string name, string info):base(price,name,info)
         {

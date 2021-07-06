@@ -9,18 +9,17 @@ namespace VendingMachine.Machine
     public class VMachine : IVending
     {
         private int moneyPool = 0;
-        private int bill = 0;
+
 
         public List <Product> PurchasedProducts;
         public List<Product> VendingProducts;
 
         public int MoneyPool { get { return moneyPool; } }
-        public int Bill { get { return bill; } }
-
+   
         
         readonly int[] denominations = new int[] {1000, 500, 100, 50, 20, 10, 5, 1};
 
-        Dictionary<int, int> Change = new Dictionary<int, int>();
+        public Dictionary<int, int> Change = new Dictionary<int, int>();
         //{
         //    {1000,0 },
         //    {500,0 },
@@ -75,6 +74,11 @@ namespace VendingMachine.Machine
         //Insert more money to spend
         public int InsertMoney(int money)
         {
+            if (money < 0)
+            {
+                Console.WriteLine("Cannot insert negative amount of money. Will be set to zero.");
+                money = 0;
+            }
            this.moneyPool += money;
             return moneyPool;
         }
@@ -103,14 +107,12 @@ namespace VendingMachine.Machine
             }
         }
 
-        //
         public string DoesCustomerConsumeProduct(Product purchase)
         {
             //Checks what type of item the purchase is
             string Choice = "\nDo you want to " + (purchase.Type == "Snacks" ? "eat the snacks": 
                                                     purchase.Type == "Beverage" ? "drink your beverage": 
-                                                    "Consume Item" + 
-                                                    "\nYes or no: ");
+                                                    "consume Item") + "\nYes or no: ";
             return Choice;           
         }
 
