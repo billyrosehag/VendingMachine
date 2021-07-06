@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace VendingMachine
 {
-    class Program
+    public class Program
     {
         public static string dashes = "-----------------------------";
         static VMachine myMachine = new VMachine();

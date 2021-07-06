@@ -14,7 +14,7 @@ namespace VendingMachine.Products
 
         public override string Examine()
         {
-            return $"{Type}: {Name} \nInfo: {Info}\nPrice: {Price}";
+            return $"{Type}: {Name}\nInfo: {Info}\nPrice: {Price}";
         }
 
         public override string UseItem()

@@ -49,7 +49,6 @@ namespace VendingMachine.Products
 
             }
         }
-        public string Use { get { return use; } }
         public string Type { get { return type; } }
 
 
