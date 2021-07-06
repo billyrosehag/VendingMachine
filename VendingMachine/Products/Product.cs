@@ -51,16 +51,16 @@ namespace VendingMachine.Products
         }
         public string Type { get { return type; } }
 
-
+        //Constructor
         public Product(int price,string name, string info)
         {
             this.price = price;
             this.Info = info;
             this.Name = name;
         }
-
+        //Used to examine the product
         public abstract string Examine();
-
+        //Whether the player decides to use the item.
         public abstract string UseItem();
 
     }

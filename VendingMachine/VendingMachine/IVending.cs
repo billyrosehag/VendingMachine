@@ -7,7 +7,7 @@ namespace VendingMachine.Products
     public interface IVending
     {
         const string INFOSTART = "---- INFO ----\n";
-
+        
         public int Purchase(Product product);
 
         public void ShowAll(List <Product> products);

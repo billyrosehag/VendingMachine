@@ -8,7 +8,6 @@ namespace VendingMachine.Products
     {
         public Beverage(int price,string name, string info):base(price,name,info)
         {
-
             this.type = "Beverage";
         }
 

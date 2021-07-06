@@ -12,7 +12,7 @@ namespace VendingMachine
         static int inputNumber;
         static void Main(string[] args)
         {
-
+            //Create the products that will be included in the vending machine
             Product[] myProducts = new Product[]
            {
             new Snacks(15, "Sour Cream Chips", "80 gram potato chips flavored with sour cream."),
@@ -23,7 +23,7 @@ namespace VendingMachine
             new Candy(15, "Plopp", "50 gram cola cream filled chocolate bar."),
             new Candy(10, "Gummy bears", "40 gram bear shaped gummy candy.")
            };
-
+            //Puts them into the Vendingmachine list
             foreach (Product product in myProducts)
             {
                 myMachine.VendingProducts.Add(product);
@@ -31,6 +31,7 @@ namespace VendingMachine
 
             Console.ForegroundColor = ConsoleColor.White;
 
+            //Starts the program
             MainMenu();
         }
 
@@ -134,6 +135,7 @@ namespace VendingMachine
 
         public static bool EndTransactionSection()
         {
+            //Only presents change to the user if they have any money left
             if(myMachine.MoneyPool > 0)
             {
                 Console.WriteLine($"\nHere is your change\n");

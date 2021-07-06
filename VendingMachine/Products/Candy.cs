@@ -9,7 +9,6 @@ namespace VendingMachine.Products
 
         public Candy(int price, string name, string info):base(price, name, info)
         {
-
             this.type = "Candy";
         }
 

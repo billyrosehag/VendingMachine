@@ -8,28 +8,23 @@ namespace VendingMachine.Machine
 {
     public class VMachine : IVending
     {
+        //Private fields
         private int moneyPool = 0;
 
-
+        //Public fields
         public List <Product> PurchasedProducts;
         public List<Product> VendingProducts;
 
+        //Public Prop
         public int MoneyPool { get { return moneyPool; } }
    
-        
+        //Holds all the differen forms of denominations available
         readonly int[] denominations = new int[] {1000, 500, 100, 50, 20, 10, 5, 1};
 
+        //Dictionary that will be used to present change to the user
         public Dictionary<int, int> Change = new Dictionary<int, int>();
-        //{
-        //    {1000,0 },
-        //    {500,0 },
-        //    {100,0 },
-        //    {50,0 },
-        //    {10,0 },
-        //    {5,0 },
-        //    {1,0 },
-        //};
 
+        //Presents the change in fitting denominations to the user
         public Dictionary<int, int> EndTransaction()
         {
             for (int i = 0; i < Change.Count; i++)
@@ -61,6 +56,7 @@ namespace VendingMachine.Machine
             return Change;
         }
 
+        //Constructor
         public VMachine()
         {
             VendingProducts = new List<Product>();
@@ -74,7 +70,7 @@ namespace VendingMachine.Machine
         //Insert more money to spend
         public int InsertMoney(int money)
         {
-            if (money < 0)
+            if (money < 0)//Checks to see that the user does not insert negative int
             {
                 Console.WriteLine("Cannot insert negative amount of money. Will be set to zero.");
                 money = 0;
@@ -86,7 +82,7 @@ namespace VendingMachine.Machine
         //Purchase item and lose money from money pool
         public int Purchase(Product product)
         {
-            PurchasedProducts.Add(product);
+            PurchasedProducts.Add(product);//Adds the purchase to a list of purchased items
             moneyPool -= product.Price;
 
             return moneyPool;
@@ -106,7 +102,7 @@ namespace VendingMachine.Machine
                 option++;
             }
         }
-
+        //Returns a different string depending on what type the product is 
         public string DoesCustomerConsumeProduct(Product purchase)
         {
             //Checks what type of item the purchase is
@@ -116,6 +112,7 @@ namespace VendingMachine.Machine
             return Choice;           
         }
 
+        //Asks if the player wants to consume the recent purchase
         public void ConsumePurchase(Product purchase)
         {
             Console.Write(DoesCustomerConsumeProduct(purchase));
