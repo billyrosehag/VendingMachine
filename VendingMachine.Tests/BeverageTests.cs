@@ -64,5 +64,27 @@ namespace VendingMachine.Tests
             //Assert
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void CannotGiveNullOrWhiteSpace()
+        {
+            //Arrange
+            string expectedName = "Singo";
+            string expectedInfo = "Orange Flavored Soda";
+
+            Beverage sut = new Beverage(0, expectedName, expectedInfo);
+
+            //Act
+            sut.Name = "";
+            sut.Info = "";
+            string actualName = sut.Name;
+            string actualInfo = sut.Info;
+
+            //Assert
+            Assert.NotNull(sut.Name);
+            Assert.NotNull(sut.Info);
+            Assert.Equal(expectedName, actualName);
+            Assert.Equal(expectedInfo, actualInfo);
+        }
     }
 }
