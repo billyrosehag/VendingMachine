@@ -75,6 +75,11 @@ namespace VendingMachine.Machine
                 Console.WriteLine("Cannot insert negative amount of money. Will be set to zero.");
                 money = 0;
             }
+            else if( money != denominations[0] && money != denominations[1] && money != denominations[2] && money != denominations[3] && money != denominations[4] && money != denominations[5] && money != denominations[6] && money != denominations[7])
+            {
+                Console.WriteLine("The inserted money must be of the right denomination: 1000, 500, 100, 50, 20, 10, 5 or 1");
+                money = 0;
+            }
            this.moneyPool += money;
             return moneyPool;
         }
