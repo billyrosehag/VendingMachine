@@ -33,8 +33,12 @@ namespace VendingMachine.Tests
         {
             //Arrange
             VMachine sut = new VMachine();
-            int money = 2989;
+            int[] wallet = new int[] {1000,1000,500,100,100,100,100,50,20,10,5,1,1,1,1 };
+            foreach(int money in wallet)
+            {
             sut.InsertMoney(money);
+
+            }
             sut.EndTransaction();
 
             //Act                                1000,500,100,50,20,10,5,1  
@@ -55,9 +59,9 @@ namespace VendingMachine.Tests
 
         [Theory]
         [InlineData(100,50, 150)]
-        [InlineData(20,70, 90)]
-        [InlineData(55,3, 58)]
-        [InlineData(678,1, 679)]
+        [InlineData(20, 10, 30)]
+        [InlineData(50,5, 55)]
+        [InlineData(500,1, 501)]
         [InlineData(0, 1, 1)]
         [InlineData(0, 0, 0)]
         public void ReturnRightAmountOfMoney(int moneyInsert1, int moneyInsert2, int expected)
@@ -75,12 +79,32 @@ namespace VendingMachine.Tests
         }
 
         [Theory]
+        [InlineData(101, 0)]
+        [InlineData(23, 0)]
+        [InlineData(55, 0)]
+        [InlineData(79,0)]
+        [InlineData(-20, 0)]
+        [InlineData(-100,0)]
+        public void ReturnZeroWhenIncorrectAmountOfMoneyInserted(int moneyInsert, int expected)
+        {
+            //Arrange
+            VMachine sut = new VMachine();
+
+            //Act
+            sut.InsertMoney(moneyInsert);
+
+            //Assert
+            Assert.Equal(expected, sut.MoneyPool);
+
+        }
+
+        [Theory]
         [InlineData(0, 100, 85)]
         [InlineData(1, 20, 0)]
-        [InlineData(2, 53, 28)]
-        [InlineData(3, 678, 628)]
-        [InlineData(4, 15, 10)]
-        [InlineData(5, 55, 40)]
+        [InlineData(2, 50, 25)]
+        [InlineData(3, 1000, 950)]
+        [InlineData(4, 10, 5)]
+        [InlineData(5, 50, 35)]
         [InlineData(6, 5, -5)]
         public void ReturnRightAmountAfterPurchase(int index, int moneyPool, int expected)
         {
